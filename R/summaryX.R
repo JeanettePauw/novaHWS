@@ -1,7 +1,7 @@
 #' Summary X
-#' 
+#'
 #' Summarise continuous variable
-#' 
+#'
 #' @family indicatify
 #' @family summaryFuncs
 #'
@@ -20,15 +20,15 @@ summaryX <- function(x,
                      NAsToZero = FALSE,
                      allowNegCIL = TRUE,
                      combinedCI = FALSE) {
-        
+
         # TODO: NB! tans stel dit negatiewe CILs net na 0 indien allowNegCIL == FALSE. Daar
         # is egter 'n ordentlike manier om CIs te bereken wanneer negatiewe CILs nie
         # moontlik is nie. Vind by CJP uit wat daardie fix is en werk dit hier in!
-        
+
         if (NAsToZero) {
                 x[which(is.na(x))] <- 0
         }
-        
+
         smmry <- round(summary(x), digits = digits)
         nms <- names(smmry)
         smmry <- as.vector(smmry)
@@ -55,10 +55,10 @@ summaryX <- function(x,
                 }
         }
         df[["Std. Dev"]] <- round(sd(x, na.rm = TRUE), digits = digits)
-        
+
         for (v in 1:ncol(df)) {
                 df[[v]][which(is.nan(df[[v]]))] <- NA_real_
         }
-        
+
         return(df)
 }

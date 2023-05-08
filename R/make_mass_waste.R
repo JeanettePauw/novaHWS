@@ -10,6 +10,7 @@
 #' @param group Charcter.
 #' @param idvar Charcter.
 #' @param dataset Charcter.
+#' @param indicatorOut Logic
 #' @param multiplier Charcter. Defalut NA
 #' @param pername Charcter.
 #' @param period Charcter.
@@ -45,14 +46,14 @@ make_mass_waste <- function(df,
       select({{idvar}}, {{multiplier}}, sample_weight) %>%
       group_by(!!sym(idvar)) %>%
       summarise(kg_pw_phh = mean( sample_weight /  !!sym(multiplier))) %>%
-      summarise(kg_pw = summaryX(kg_pw_phh, allowNegCIL = FALSE)) %>%
+      summarise(kg_pw = novaIndicators::summaryX(kg_pw_phh, allowNegCIL = FALSE)) %>%
       `[[`(1)
   } else {
     res <- df %>% mutate(sample_weight = dry_sample_weight + wet_sample_weight) %>%
       select({{idvar}}, sample_weight) %>%
       group_by(!!sym(idvar)) %>%
       summarise(kg_pw_phh = mean(sample_weight)) %>%
-      summarise(kg_pw = summaryX(kg_pw_phh, allowNegCIL = FALSE)) %>%
+      summarise(kg_pw = novaIndicators::summaryX(kg_pw_phh, allowNegCIL = FALSE)) %>%
       `[[`(1)
   }
 if (!indicatorOut) return(res)
